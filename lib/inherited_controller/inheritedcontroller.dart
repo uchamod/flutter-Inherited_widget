@@ -28,22 +28,27 @@ class InheritedStateState extends State<InheritedState> {
   }
 
   //when the state is changed notify the frame work to the state is changed
-  void updatedUser({String? name, String? email, String? password}) {
-    setState(() {
-      user = User(name: user.name, email: user.email, password: user.password);
-    });
+  void updatedUser({required name, required email, required password}) {
+    setState(
+      () {
+        user = User(
+            name: name ?? user.name,
+            email: email ?? user.email,
+            password: password ?? user.password);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return UserInheritedWidget(child: widget.child,data: this,);
   }
 }
 
 //inherited widget
 class UserInheritedWidget extends InheritedWidget {
   final InheritedStateState data;
-  const UserInheritedWidget(this.data, {super.key, required super.child});
+  const UserInheritedWidget( {super.key, required super.child,required this.data,});
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
